@@ -29,7 +29,12 @@ let mixDeckCards = (deckOfCard) => {
 let randomCard = (deckOfCard) => {
     let randomDeck = deckOfCard.sort(() => Math.random() - 0.5);
 
-    return randomDeck[Math.round(Math.random() * randomDeck.length)];
+    let random = Math.round(Math.random() * randomDeck.length)
+    let randomCard = randomDeck[random];
+
+    randomDeck.splice(random, 1);
+
+    return {randomCard, randomDeck};
 };
 
 exports.generateDeckCards = generateDeckCards;
