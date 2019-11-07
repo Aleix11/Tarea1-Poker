@@ -1,5 +1,5 @@
 let generateDeckCards = () => {
-    let deckOfCard = [];
+    let deckOfCards = [];
 
     let number = ['as', '2', '3', '4', '5', '6', '7' , '8', '9', '10', 'sota', 'caballo', 'rey'];
     let palo = ['corazones', 'picas', 'rombos', 'treboles'];
@@ -10,26 +10,28 @@ let generateDeckCards = () => {
                palo: palo,
                valor: num
            };
-           deckOfCard.push(card);
+           deckOfCards.push(card);
         })
     });
-    return deckOfCard;
+    return deckOfCards;
 };
 
-let mixDeckCards = (deckOfCard) => {
+let mixDeckCards = (deckOfCards) => {
 /*  Check Correct deck of cards
     let corazones = deckOfCard.find((card) => card.palo === 'corazones');
     let treboles = deckOfCard.find((card) => card.palo === 'corazones');
     let rombos = deckOfCard.find((card) => card.palo === 'corazones');
     let picas = deckOfCard.find((card) => card.palo === 'corazones');
 */
-    return deckOfCard.sort(() => Math.random() - 0.5);
+    return deckOfCards.sort(() => Math.random() - 0.5);
+    // return generateDeckCards().sort(() => Math.random() - 0.5); // Generado directamente
+
 };
 
-let randomCard = (deckOfCard) => {
-    let randomDeck = deckOfCard.sort(() => Math.random() - 0.5);
+let randomCard = (deckOfCards) => {
+    let randomDeck = deckOfCards.sort(() => Math.random() - 0.5);
 
-    let random = Math.round(Math.random() * randomDeck.length)
+    let random = Math.floor(Math.random() * randomDeck.length);
     let randomCard = randomDeck[random];
 
     randomDeck.splice(random, 1);
@@ -37,6 +39,23 @@ let randomCard = (deckOfCard) => {
     return {randomCard, randomDeck};
 };
 
+// user : { name: 'AAA' , cards: []}
+let distributeCards = (users, deckOfCards) => {
+    let randomDeck = deckOfCards.sort(() => Math.random() - 0.5);
+
+    users.forEach(user => {
+        for(let i = 0; i < 5; i++) {
+            let obj = randomCard(randomDeck);
+            user.cards.push(obj.randomCard);
+            randomDeck = obj.randomDeck;
+        }
+    });
+
+    console.log(randomDeck.length);
+    return {users, randomDeck};
+};
+
 exports.generateDeckCards = generateDeckCards;
 exports.mixDeckCards = mixDeckCards;
 exports.randomCard = randomCard;
+exports.distributeCards = distributeCards;
