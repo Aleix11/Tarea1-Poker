@@ -78,7 +78,7 @@ let checkUsersCard = (cards) => {
         return { play: 'twoPairs', points: 3,  cards}
     } else if(pair(cards)) {
         return { play: 'pair', points: 2,  cards}
-    } else if(highCard(cards)) {
+    } else {
         return { play: 'highCard', points: 1,  cards}
     }
 };
@@ -260,11 +260,6 @@ let pair = (cards) => {
         modifyCards = [...cards];
     }
 };
-
-let highCard = (cards) => {
-
-};
-
 
 let checkWinner = (users) => {
 
