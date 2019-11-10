@@ -5,9 +5,6 @@ let number = [['as', 14], ['2', 2], ['3', 3], ['4', 4], ['5', 5], ['6', 6], ['7'
 let generateDeckCards = () => {
     let deckOfCards = [];
 
-    // let number = [['as', 14], ['2', 2], ['3', 3], ['4', 4], ['5', 5], ['6', 6], ['7', 7] , ['8', 8], ['9', 9], ['10', 10], ['sota', 11], ['caballo', 12], ['rey', 13]];
-    // let palo = ['corazones', 'picas', 'rombos', 'treboles'];
-
     palo.forEach((palo) => {
         number.forEach((num) => {
            let card = {
@@ -28,8 +25,6 @@ let mixDeckCards = (deckOfCards) => {
     let picas = deckOfCard.find((card) => card.palo === 'corazones');
 */
     return deckOfCards.sort(() => Math.random() - 0.5);
-    // return generateDeckCards().sort(() => Math.random() - 0.5); // Generado directamente
-
 };
 
 let randomCard = (deckOfCards) => {
@@ -64,14 +59,14 @@ let checkUsersCard = (cards) => {
 
     if(straightFlush(cards)) {
         return { play: 'straightFlush', points: 9,  cards}
-    } /*else if(straight(cards)) {
-        return { play: 'straight', points: 88,  cards}
-    }*/ else if(poker(cards)) {
-        return { play: 'poker', points: 7, cards: poker(cards)}
+    } else if(poker(cards)) {
+        return { play: 'poker', points: 8, cards: poker(cards)}
+    } else if(full(cards)) {
+        return { play: 'full', points: 7, cards: full(cards)}
     } else if(flush(cards)) {
         return { play: 'flush', points: 6, cards: flush(cards)}
-    } else if(full(cards)) {
-        return { play: 'full', points: 5, cards: full(cards)}
+    }  else if(straight(cards)) {
+        return { play: 'straight', points: 5,  cards}
     } else if(threeKind(cards)) {
         return { play: 'threeKind', points: 4, cards: threeKind(cards)}
     } else if(twoPairs(cards)) {
@@ -84,25 +79,25 @@ let checkUsersCard = (cards) => {
 };
 
 let straightFlush = (cards) => {
-    let straightFlush = false;
+    let straightFlush = [];
 
     palo.forEach(palo => {
         if(cards.every(card => card.palo === palo)) {
-            return straight(cards);
-        } else {
-            return false;
+            straightFlush = straight(cards);
         }
     });
 
-    return straightFlush;
+    return straightFlush.length !== 0 ? straightFlush : false;
 };
 
 let straight = (cards) => {
+    cards.sort((a, b) => (a.valor[1] > b.valor[1]) ? -1 : ((b.valor[1] > a.valor[1]) ? 1 : 0));
+
     return cards.every(sequence);
 };
 
 let sequence = (card, i, array) => {
-    return !i || array[i - 1].valor[1] < card.valor[1];
+    return !i || array[i - 1].valor[1] - card.valor[1] === 1;
 };
 
 let poker = (cards) => {
