@@ -57,22 +57,44 @@ let checkUsersCard = (cards) => {
 
     cards.sort((a, b) => (a.palo > b.palo) ? 1 : ((b.palo > a.palo) ? -1 : (a.valor[1] - b.valor[1])));
 
-    if(straightFlush(cards)) {
-        return { play: 'straightFlush', points: 9,  cards}
-    } else if(poker(cards)) {
-        return { play: 'poker', points: 8, cards: poker(cards)}
-    } else if(full(cards)) {
-        return { play: 'full', points: 7, cards: full(cards)}
-    } else if(flush(cards)) {
-        return { play: 'flush', points: 6, cards: flush(cards)}
-    }  else if(straight(cards)) {
-        return { play: 'straight', points: 5,  cards}
-    } else if(threeKind(cards)) {
-        return { play: 'threeKind', points: 4, cards: threeKind(cards)}
-    } else if(twoPairs(cards)) {
-        return { play: 'twoPairs', points: 3, cards: pair(cards)}
-    } else if(pair(cards)) {
-        return { play: 'pair', points: 2, cards: pair(cards)}
+    let sf = straightFlush(cards);
+    if(sf) {
+        return { play: 'straightFlush', points: 9, cards: sf}
+    }
+
+    let pk = poker(cards);
+    if(pk) {
+        return { play: 'poker', points: 8, cards: pk}
+    }
+
+    let fll = full(cards);
+    if(fll) {
+        return { play: 'full', points: 7, cards: fll}
+    }
+
+    let flsh = flush(cards);
+    if(flsh) {
+        return { play: 'flush', points: 6, cards: flsh}
+    }
+
+    let strght = straight(cards);
+    if(strght) {
+        return { play: 'straight', points: 5,  cards: strght}
+    }
+
+    let thrKnd = threeKind(cards);
+    if(thrKnd) {
+        return { play: 'threeKind', points: 4, cards: thrKnd}
+    }
+
+    let twPrs = twoPairs(cards);
+    if(twPrs) {
+        return { play: 'twoPairs', points: 3, cards: twPrs}
+    }
+
+    let pr = pair(cards);
+    if(pr) {
+        return { play: 'pair', points: 2, cards: pr}
     } else {
         return { play: 'highCard', points: 1,  cards: cards.sort((a, b) => (a.valor[1] > b.valor[1]) ? -1 : ((b.valor[1] > a.valor[1]) ? 1 : 0))}
     }
